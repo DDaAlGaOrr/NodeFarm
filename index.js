@@ -1,6 +1,7 @@
 const fs = require('fs')
 const http = require('http')
 const url = require('url')
+const replaceTemplate = require('./modules/replaceTemplate')
 //FILES
 /* --------------------------------------------------------------------------------------------------------- */
 // read and write files in node js blocking
@@ -29,20 +30,7 @@ const url = require('url')
 // })
 // console.log('will read file')
 //HTTP SERVER
-const replaceTemplate = (template,product)=>{
-    let output = template.replace(/{%PRODUCTNAME%}/g, product.productName)
-        output = output.replace(/{%IMAGE%}/g, product.image)
-        output = output.replace(/{%QUANTITY%}/g, product.quantity)
-        output = output.replace(/{%PRICE%}/g, product.price)
-        output = output.replace(/{%ID%}/g, product.id)
-        output = output.replace(/{%FROM%}/g, product.from)
-        output = output.replace(/{%NUTRIENTS%}/g, product.nutrients)
-        output = output.replace(/{%DESCRIPTION%}/g, product.description)
-        if(!product.organic){
-            output = output.replace(/{%NOT_ORGANIC%}/,'not-organic')
-        }
-        return output
-}
+
 /* --------------------------------------------------------------------------------------------------------- */       
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`,'utf-8')
 const templateOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`,'utf-8')
@@ -83,7 +71,7 @@ const server = http.createServer((req, res)=>{
             'Content-type':'text/html',
             'My-own-header': 'hello'
         })
-        res.end('<h1>page not found: 404</h1>')
+        res.end('<h1>page not found: 404 </h1>')
     }
 })
 /* --------------------------------------------------------------------------------------------------------- */
